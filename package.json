@@ -1,0 +1,17 @@
+{
+  "name": "features",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Tile.js",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "bower": "^1.4.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
