@@ -32,4 +32,19 @@ var tileDSlots = tileD.features;
 // tileA.printGrid(); // (0,0) (0,1) 
 // tileASlots[0][0].printGrid(); // (0,0) (0,1) (0,2) (0,3) (0,4) (0,5) (1,0) (1,1) (1,2) (1,3) (1,4) (1,5) (2,0) (2,1) (2,2) (2,3) (2,4) (2,5) 
 
-tileASlots[0][0].connect();
+//tileASlots[0][0].connect(); // TODO: fill in test answer
+//tileASlots[0][1].connect();
+
+// for (var i = 0; i < tileASlots.length; i++) {
+//   for (var j = 0; j < tileASlots[i].length; j++) {
+//     tileASlots[i][j].connect();
+//     console.log(tileASlots[i][j].feature.featureCode);
+//   }
+// }
+// for (var i = 0; i < tileDSlots.length; i++) {
+//   for (var j = 0; j < tileDSlots[i].length; j++) {
+//     tileDSlots[i][j].connect();
+//     console.log(tileDSlots[i][j].feature.featureCode);
+//   }
+// }
+// console.log(tileDSlots[0][3].feature); // Should have been absorbed into the larger field.

@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 // Represents a feature object on the grid, composed of tiles
 // and (more accurately speaking) tile slots.
 function Feature (featureCode) {
@@ -33,14 +35,23 @@ Feature.prototype.adopt = function(tileSlot) {
     // If the adopted tile slot belongs to a tile not 
     // spanned by this feature, push that tile to the 
     // list of tiles that this feature spans.
-    if (this.tiles.indexOf( this.tileSlot.tile ) === -1) {
-      this.tiles.push(this.tileSlot.tile);
+    if (this.tiles.indexOf( tileSlot.tile ) === -1) {
+      this.tiles.push(tileSlot.tile);
     }
+    //console.log(this);
   }
 
 };
 Feature.prototype.mergeInto = function(feature) {
+  // Absorb all of the invoking feature's data into
+  // the target feature.
+  _.each(this.tileSlots, function(tileSlot) {
+    feature.adopt(tileSlot);
+  });
 
+  _.each(this.meeples, function(meeple) {
+    feature.meeples.push(meeple);
+  });
 };
 
 module.exports = Feature;

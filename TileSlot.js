@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var Grid = require('./Grid.js');
+var Feature = require('./Feature.js');
 var grid = new Grid();
 
 function TileSlot (featureCode, x, y, tile) {
@@ -49,25 +50,26 @@ TileSlot.prototype.connect = function() {
   // and (3) already belong to a feature.
   var candidates = _.filter(this.identifyNeighbors(), function(neighbor) {
     return neighbor && (this.featureCode === neighbor.featureCode) && neighbor.feature;
-  });
-  //console.log(neighbors);
+  }, this);
 
   // If there are no valid neighbors to try and connect with,
   // promote self into a new feature and return.
   if (candidates.length === 0) {
-    this.feature = 'Hi, I should be a feature object, really...'; // TODO: new Feature(this).....?
+    this.feature = new Feature(this.featureCode);
+    this.feature.adopt(this);
+    console.log("I'm a new feature!", this.gridX, this.gridY);
     return;
   }
 
-  for (var neighbor in candidates) {
+  _.each(candidates, function(neighbor) {
     if (!this.feature) {
-
       // If this tile slot does not belong to a feature yet, 
       // connect it to the neighbor's feature.
+      console.log("I'm being adopted! Yay.");
       neighbor.feature.adopt(this);
 
     } else if (this.feature !== neighbor.feature) {
-
+      console.log("We're merging here!");
       // If this tile slot and the neighbor belong to different
       // features already, determine which feature is smaller
       //  and merge it into the larger feature.
@@ -81,10 +83,10 @@ TileSlot.prototype.connect = function() {
 
     }
     //console.log(neighbor.feature);
-  }
-
+  }, this);
 };
 TileSlot.prototype.printGrid = function() {
+  // Sample function using grid.reduce
   var print = grid.reduce(function(memo, cell, index) {
     return memo + "(" + cell.gridX + "," + cell.gridY + ") "; 
   }, '');

@@ -8,6 +8,26 @@ function Tile (id) {
   _.extend( this, specs[id] ); // Make this a tile of type 'id'
   this.size = this.features.length; // Assumes a square feature matrix
 }
+Tile.prototype.rotate = function() {
+  // Note: All rotations are 90 degrees to the right.
+  // Rotate orientation
+  this.orientation = (this.orientation + 1) % 4;
+
+  // Rotate sides
+  var temp = {};
+
+  for (var key in this.sides) {
+    temp[key] = this.sides[key];
+  }
+
+  this.sides.n = temp.w;
+  this.sides.e = temp.n;
+  this.sides.s = temp.e;
+  this.sides.w = temp.s;
+
+  // TODO: Rotate features matrix
+
+};
 Tile.prototype.convertFeatureCodes = function() {
   // Cache the dimensions of the tile's feature matrix.
   var size = this.size;
@@ -69,6 +89,7 @@ Tile.prototype.identifyNeighbors = function() {
   };
 };
 Tile.prototype.printGrid = function() {
+  // Sample function using grid.reduce
   var print = grid.reduce(function(memo, cell, index) {
     return memo + "(" + cell.x + "," + cell.y + ") "; 
   }, '');

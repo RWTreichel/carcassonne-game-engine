@@ -9,9 +9,10 @@ var tileSpecs = {
       w: 'field'
     },
     features: [
-      ['F','F','F'],
-      ['F','M','F'],
-      ['F','R','F']
+      ['F','F','F','F'],
+      ['F','M','M','F'],
+      ['F','M','M','F'],
+      ['F','R','R','F']
     ],
     pennant: false
   },
@@ -25,9 +26,10 @@ var tileSpecs = {
       w: 'road'
     },
     features: [
-      ['F','C','F'],
-      ['R','R','R'],
-      ['F','F','F']
+      ['F','C','C','F'],
+      ['F','F','F','F'],
+      ['R','R','R','R'],
+      ['F','F','F','F']
     ],
     pennant: false
   }
