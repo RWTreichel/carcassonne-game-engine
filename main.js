@@ -28,3 +28,8 @@ var tileDSlots = tileD.features;
 
 // console.log(tileASlots[1][1].identifyNeighbors()); // {n: tileASlots[0][1], e: [1][2], s: [2][1], w: [1][0]}
 // console.log(tileDSlots[1][0].identifyNeighbors()); // {n: tileDSlots[0][0]}, e: [1][1], s: [2][0], w: tileASlots[1][2]
+
+// tileA.printGrid(); // (0,0) (0,1) 
+// tileASlots[0][0].printGrid(); // (0,0) (0,1) (0,2) (0,3) (0,4) (0,5) (1,0) (1,1) (1,2) (1,3) (1,4) (1,5) (2,0) (2,1) (2,2) (2,3) (2,4) (2,5) 
+
+tileASlots[0][0].connect();

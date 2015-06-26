@@ -1,3 +1,4 @@
+var _ = require('underscore');
 var Grid = require('./Grid.js');
 var grid = new Grid();
 
@@ -20,7 +21,7 @@ TileSlot.prototype.getNeighbor = function(x, y) {
 
   // If there is no tile slot at (lookupX, lookupY) on the tile slot grid, return undefined.
   if ( !neighbor ) {
-    console.log("No tile slot at (" + lookupX + "," + lookupY + ")!");
+    // console.log("No tile slot at (" + lookupX + "," + lookupY + ")!");
     return;
   }
 
@@ -43,6 +44,52 @@ TileSlot.prototype.connect = function() {
   // Intelligently connect to a nearby feature, initiating feature merges
   // if necessary. If there are no features nearby to connect to, instantiate
   // and register a new feature with the FeatureManager.
+
+  // Find all neighbors that (1) exist, (2) match this tile slot's type,
+  // and (3) already belong to a feature.
+  var candidates = _.filter(this.identifyNeighbors(), function(neighbor) {
+    return neighbor && (this.featureCode === neighbor.featureCode) && neighbor.feature;
+  });
+  //console.log(neighbors);
+
+  // If there are no valid neighbors to try and connect with,
+  // promote self into a new feature and return.
+  if (candidates.length === 0) {
+    this.feature = 'Hi, I should be a feature object, really...'; // TODO: new Feature(this).....?
+    return;
+  }
+
+  for (var neighbor in candidates) {
+    if (!this.feature) {
+
+      // If this tile slot does not belong to a feature yet, 
+      // connect it to the neighbor's feature.
+      neighbor.feature.adopt(this);
+
+    } else if (this.feature !== neighbor.feature) {
+
+      // If this tile slot and the neighbor belong to different
+      // features already, determine which feature is smaller
+      //  and merge it into the larger feature.
+      if (this.feature.size() >= neighbor.feature.size()) {
+        // I am bigger. I eat the neighbor's feature.
+        neighbor.feature.mergeInto(this.feature);
+      } else if (this.feature.size() < neighbor.feature.size()) {
+        // I am smaller. The neighbor eats my feature.
+        this.feature.mergeInto(neighbor.feature);
+      }
+
+    }
+    //console.log(neighbor.feature);
+  }
+
 };
+TileSlot.prototype.printGrid = function() {
+  var print = grid.reduce(function(memo, cell, index) {
+    return memo + "(" + cell.gridX + "," + cell.gridY + ") "; 
+  }, '');
+
+  console.log(print);
+}
 
 module.exports = TileSlot;

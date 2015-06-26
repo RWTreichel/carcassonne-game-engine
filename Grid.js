@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 function Grid () {
   this._grid = {};
 }
@@ -21,6 +23,13 @@ Grid.prototype.getTile = function(x, y) {
   if (this._grid[x]) {
     return this._grid[x][y];
   }
+};
+Grid.prototype.reduce = function(callback, memo) {
+  return _.reduce(this._grid, function(memo, row, index) {
+    return _.reduce(row, function(memo, cell, index) {
+      return callback(memo, cell, index);
+    }, memo);
+  }, memo);
 };
 
 module.exports = Grid;

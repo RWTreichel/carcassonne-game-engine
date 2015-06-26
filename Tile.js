@@ -1,4 +1,4 @@
-var _ = require("underscore");
+var _ = require('underscore');
 var Grid = require('./Grid.js');
 var TileSlot = require('./TileSlot.js');
 var grid = new Grid();
@@ -33,7 +33,7 @@ Tile.prototype.placeTile = function(x, y) {
   this.x = x;
   this.y = y;
 
-  // TEST: Only convert feature codes after we know x and y are set,
+  // Only convert feature codes after we know x and y are set,
   // since TileSlot instantiation depends on tile.x and tile.y.
   this.convertFeatureCodes();
 
@@ -67,6 +67,13 @@ Tile.prototype.identifyNeighbors = function() {
     // Same row, one column to the left
     w: this.getNeighbor(0, -1)
   };
+};
+Tile.prototype.printGrid = function() {
+  var print = grid.reduce(function(memo, cell, index) {
+    return memo + "(" + cell.x + "," + cell.y + ") "; 
+  }, '');
+
+  console.log(print);
 };
 
 module.exports = Tile;
